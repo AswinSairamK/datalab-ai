@@ -4,6 +4,8 @@
 
 DataLab AI is a no-code data science platform that lets anyone upload a dataset and go from raw CSV to trained ML model in minutes. Built entirely with Python and Streamlit, it combines EDA, preprocessing, Auto-ML, SHAP explanations, clustering, forecasting, and more in a single unified interface.
 
+**🚀 Live Demo:** https://aswin-datalab.streamlit.app
+
 ## Features
 
 ### Data Handling
