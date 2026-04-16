@@ -1,4 +1,4 @@
-﻿streamlit
+streamlit
 pandas
 numpy
 plotly
@@ -10,5 +10,3 @@ seaborn
 matplotlib
 shap
 imbalanced-learn
-prophet
-ydata-profiling

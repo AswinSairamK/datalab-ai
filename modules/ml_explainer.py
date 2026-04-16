@@ -251,19 +251,45 @@ def remove_low_variance_features(X, threshold: float = 0.01) -> pd.DataFrame:
 
 def generate_profile_report_html(df: pd.DataFrame, title: str = "Data Profile") -> str:
     """
-    Generate a comprehensive data profiling report as HTML.
+    Generate a simple data profile report using pandas + basic HTML.
+    Lightweight alternative that works everywhere.
     """
     try:
-        from ydata_profiling import ProfileReport
+        html = f"""
+        <html><head><title>{title}</title>
+        <style>
+        body {{ font-family: Arial, sans-serif; padding: 20px; }}
+        h1 {{ color: #028090; }}
+        h2 {{ color: #00A896; border-bottom: 2px solid #00A896; padding-bottom: 5px; }}
+        table {{ border-collapse: collapse; width: 100%; margin: 10px 0; }}
+        th {{ background: #028090; color: white; padding: 8px; text-align: left; }}
+        td {{ padding: 8px; border-bottom: 1px solid #eee; }}
+        .stat {{ display: inline-block; padding: 10px 20px; margin: 5px;
+                 background: #E1F5EE; border-radius: 8px; }}
+        </style></head><body>
+        <h1>{title}</h1>
         
-        profile = ProfileReport(
-            df,
-            title=title,
-            minimal=True,  # Faster for large datasets
-            explorative=False
-        )
+        <h2>Dataset Overview</h2>
+        <div class="stat"><b>Rows:</b> {len(df):,}</div>
+        <div class="stat"><b>Columns:</b> {len(df.columns)}</div>
+        <div class="stat"><b>Missing values:</b> {df.isnull().sum().sum():,}</div>
+        <div class="stat"><b>Duplicates:</b> {df.duplicated().sum():,}</div>
         
-        return profile.to_html()
+        <h2>Column Details</h2>
+        {df.describe(include='all').round(3).to_html()}
+        
+        <h2>Data Types</h2>
+        {df.dtypes.to_frame('Type').to_html()}
+        
+        <h2>Missing Values</h2>
+        {df.isnull().sum().to_frame('Missing Count').to_html()}
+        
+        <h2>First 20 Rows</h2>
+        {df.head(20).to_html()}
+        
+        </body></html>
+        """
+        return html
     
     except Exception as e:
         return f"<p>Error generating report: {str(e)}</p>"
